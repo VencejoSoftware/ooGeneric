@@ -1,70 +1,173 @@
+{$REGION 'documentation'}
 {
   Copyright (c) 2016, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
+{
+  Generic list object
+  @created(14/08/2016)
+  @author Vencejo Software <www.vencejosoft.com>
+}
+{$ENDREGION}
 unit ooList;
 
 interface
 
 uses
-  Classes, SysUtils,
+  SysUtils,
   Generics.Collections;
 
 type
+{$REGION 'documentation'}
+// @abstract(Error class for generics list)
+{$ENDREGION}
   EList = class(Exception)
   end;
 
+{$REGION 'documentation'}
+// @abstract(Native type wrap for item index)
+{$ENDREGION}
+
+  TIntegerIndex = NativeUInt;
+
+{$REGION 'documentation'}
+{
+  @abstract(Interface of generic list)
+  @member(
+    ItemByIndex Return a item by index position
+    @param(Index Position of item)
+    @return(Generic value item)
+  )
+  @member(
+    Add Append a new item to the list
+    @param(Item Value item)
+    @return(Index of added item)
+  )
+  @member(
+    Remove Remove a item from list
+    @param(Item Value item)
+    @return(Index of removed item)
+  )
+  @member(
+    IsEmpty Checks if the list is empty
+    @return(@true if the list is empty, @false if the list has at least one item)
+  )
+  @member(
+    Count Return the number of items in list
+    @return(Number with the items in list)
+  )
+  @member(
+    IndexOf Return a item index from item value
+    @param(Item Value item)
+    @return(Index of value item)
+  )
+  @member(
+    Exists Checks if a item value exists in the list
+    @param(Item Value item)
+    @return(@true if value item exists, @false if not)
+  )
+  @member(
+    First Return the first value item in list
+    @return(Value item object or error)
+  )
+  @member(
+    Last Return the last value item in list
+    @return(Value item object or error)
+  )
+  @member(
+    FromArray Load the list from an array
+    @parm(ArrayItems Array to load)
+  )
+  @member(
+    ChangeItemByIndex Change an exist item for another
+    @param(Index Item index)
+    @param(Item Value item)
+  )
+  @member(Clear Clear the list removing all items)
+  @member(Items Property to access of all items)
+}
+{$ENDREGION}
+
   IGenericList<T> = interface
     ['{F9307C24-C39E-4D8F-868B-0C42CBC457D6}']
-    function GetItem(const Index: Integer): T;
-    function Add(Item: T): Integer;
+    function ItemByIndex(const Index: TIntegerIndex): T;
+    function Add(const Item: T): TIntegerIndex;
+    function Remove(const Item: T): TIntegerIndex;
     function IsEmpty: Boolean;
-    function Count: Integer;
-    function IndexOf(const Item: T): Integer;
+    function Count: TIntegerIndex;
+    function IndexOf(const Item: T): TIntegerIndex;
     function Exists(const Item: T): Boolean;
     function First: T;
     function Last: T;
-
     procedure FromArray(const ArrayItems: array of T);
-    procedure SetItem(const Index: Integer; Item: T);
+    procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear;
-
-    property Items[const Index: Integer]: T read GetItem write SetItem; default;
+    property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
   end;
+
+{$REGION 'documentation'}
+{
+  @abstract(Implementation of @link(IGenericList))
+  @member(ItemByIndex @seealso(IGenericList.ItemByIndex))
+  @member(Add @seealso(IGenericList.Add))
+  @member(Remove @seealso(IGenericList.Remove))
+  @member(IsEmpty @seealso(IGenericList.IsEmpty))
+  @member(Count @seealso(IGenericList.Count))
+  @member(IndexOf @seealso(IGenericList.IndexOf))
+  @member(Exists @seealso(IGenericList.Exists))
+  @member(First @seealso(IGenericList.First))
+  @member(Last @seealso(IGenericList.Last))
+  @member(FromArray @seealso(IGenericList.FromArray))
+  @member(ChangeItemByIndex @seealso(IGenericList.ChangeItemByIndex))
+  @member(Clear @seealso(IGenericList.Clear))
+  @member(Items @seealso(IGenericList.Items))
+  @member(
+    IsValidIndex Checks if a index is valid for current items in list
+    @param(Index Item index in list)
+    @return(@true if is valid, @false if not)
+  )
+  @member(Items @seealso(IGenericList.Items))
+  @member(QueryInterface Used for interface mode)
+  @member(SupportsInterface Used for interface mode)
+  @member(_AddRef Used for interface mode)
+  @member(_Release Used for interface mode)
+  @member(
+    Create Object constructor
+    @param(UseReferenceCount Use list in interface mode)
+  )
+  @member(
+    Destroy Object destructor
+  )
+}
+{$ENDREGION}
 
   TGenericList<T> = class(TInterfacedObject, IGenericList<T>)
   strict private
     _List: TList<T>;
     _UseReferenceCount: Boolean;
-  private
-    function GetItem(const Index: Integer): T;
-
-    procedure SetItem(const Index: Integer; Item: T);
   protected
+    function IsValidIndex(const Index: TIntegerIndex): Boolean;
     function QueryInterface(const GUID: TGUID; out Obj): HResult; stdcall;
     function SupportsInterface(const GUID: TGUID): Boolean;
     function _AddRef: Integer; stdcall;
     function _Release: Integer; stdcall;
   public
-    function IsValidIndex(const Index: Integer): Boolean;
     function IsEmpty: Boolean; virtual;
-    function Add(Item: T): Integer; virtual;
-    function IndexOf(const Item: T): Integer;
+    function Add(const Item: T): TIntegerIndex; virtual;
+    function Remove(const Item: T): TIntegerIndex; virtual;
+    function IndexOf(const Item: T): TIntegerIndex;
     function Exists(const Item: T): Boolean; virtual;
     function First: T;
     function Last: T;
-    function Count: Integer;
-
+    function Count: TIntegerIndex;
+    function ItemByIndex(const Index: TIntegerIndex): T;
+    procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear; virtual;
     procedure FromArray(const ArrayItems: array of T);
-
-    constructor Create(const UseReferenceCount: Boolean); virtual;
+    constructor Create(const UseReferenceCount: Boolean = True); virtual;
     destructor Destroy; override;
-
-    class function New(const UseReferenceCount: Boolean): IGenericList<T>;
-
-    property Items[const Index: Integer]: T read GetItem write SetItem; default;
+    property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
   end;
 
 implementation
@@ -105,49 +208,54 @@ begin
       Result := E_NOINTERFACE;
 end;
 
-function TGenericList<T>.GetItem(const Index: Integer): T;
+function TGenericList<T>.ItemByIndex(const Index: TIntegerIndex): T;
 begin
   if not IsValidIndex(Index) then
     raise EList.Create('Invalid index');
   Result := T(_List.Items[Index]);
 end;
 
-procedure TGenericList<T>.SetItem(const Index: Integer; Item: T);
+procedure TGenericList<T>.ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
 begin
   if not IsValidIndex(Index) then
     raise EList.Create('Invalid index');
   _List.Items[Index] := Item;
 end;
 
-function TGenericList<T>.Add(Item: T): Integer;
+function TGenericList<T>.Add(const Item: T): TIntegerIndex;
 begin
   Result := _List.Add(Item);
 end;
 
-function TGenericList<T>.Count: Integer;
+function TGenericList<T>.Remove(const Item: T): TIntegerIndex;
+begin
+  Result := _List.Remove(Item);
+end;
+
+function TGenericList<T>.Count: TIntegerIndex;
 begin
   Result := _List.Count;
 end;
 
-function TGenericList<T>.IsValidIndex(const Index: Integer): Boolean;
+function TGenericList<T>.IsValidIndex(const Index: TIntegerIndex): Boolean;
 begin
-  Result := (Index >= 0) and (Index < Count);
+  Result := (Index < Count);
 end;
 
 function TGenericList<T>.First: T;
 begin
   if IsEmpty then
-    Result := default(T)
+    Result := default (T)
   else
-    Result := GetItem(0);
+    Result := ItemByIndex(0);
 end;
 
 function TGenericList<T>.Last: T;
 begin
   if IsEmpty then
-    Result := default(T)
+    Result := default (T)
   else
-    Result := GetItem(Pred(Count));
+    Result := ItemByIndex(Pred(Count));
 end;
 
 function TGenericList<T>.IsEmpty: Boolean;
@@ -155,7 +263,7 @@ begin
   Result := (Count = 0);
 end;
 
-function TGenericList<T>.IndexOf(const Item: T): Integer;
+function TGenericList<T>.IndexOf(const Item: T): TIntegerIndex;
 begin
   Result := _List.IndexOf(Item);
 end;
@@ -167,7 +275,7 @@ end;
 
 procedure TGenericList<T>.FromArray(const ArrayItems: array of T);
 var
-  i: Integer;
+  i: TIntegerIndex;
 begin
   for i := 0 to High(ArrayItems) do
     Add(ArrayItems[i]);
@@ -189,11 +297,6 @@ begin
   Clear;
   _List.Free;
   inherited;
-end;
-
-class function TGenericList<T>.New(const UseReferenceCount: Boolean): IGenericList<T>;
-begin
-  Result := Create(UseReferenceCount);
 end;
 
 end.

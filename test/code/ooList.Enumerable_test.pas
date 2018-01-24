@@ -17,14 +17,15 @@ uses
 {$ENDIF};
 
 type
-  TListEnumerableTest = class(TTestCase)
-  private
+  TListEnumerableTest = class sealed(TTestCase)
+  strict private
     _List: TListEnumerable<Integer>;
   protected
     procedure SetUp; override;
     procedure TearDown; override;
   published
     procedure TestGetEnumerator;
+    procedure TestGetEnumeratorOneItem;
     procedure TestGetEnumeratorEmpty;
   end;
 
@@ -51,6 +52,18 @@ var
 begin
   for IntegerItem in _List do
     CheckEquals(0, IntegerItem);
+end;
+
+procedure TListEnumerableTest.TestGetEnumeratorOneItem;
+var
+  Value, IntegerItem: Integer;
+
+begin
+  Value := -1;
+  _List.Add(10);
+  for IntegerItem in _List do
+    Value := IntegerItem;
+  CheckEquals(10, Value);
 end;
 
 procedure TListEnumerableTest.SetUp;

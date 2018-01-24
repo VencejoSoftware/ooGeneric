@@ -17,8 +17,8 @@ uses
 {$ENDIF};
 
 type
-  TListFiltrableTest = class(TTestCase)
-  private
+  TListFiltrableTest = class sealed(TTestCase)
+  strict private
     _List: TListFiltrable<String>;
   protected
     procedure SetUp; override;

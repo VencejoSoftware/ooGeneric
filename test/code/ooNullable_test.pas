@@ -17,7 +17,7 @@ uses
 {$ENDIF};
 
 type
-  TNullableTest = class(TTestCase)
+  TNullableTest = class sealed(TTestCase)
   published
     procedure TestIsEmpty;
     procedure TestIsNotEmpty;

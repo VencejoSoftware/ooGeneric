@@ -17,8 +17,8 @@ uses
 {$ENDIF};
 
 type
-  TListTest = class(TTestCase)
-  private
+  TListTest = class sealed(TTestCase)
+  strict private
     _List: TGenericList<String>;
   protected
     procedure SetUp; override;

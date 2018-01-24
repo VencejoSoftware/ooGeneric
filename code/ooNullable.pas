@@ -1,8 +1,15 @@
+{$REGION 'documentation'}
 {
   Copyright (c) 2016, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
+{
+  Nullable generic type
+  @created(14/08/2016)
+  @author Vencejo Software <www.vencejosoft.com>
+}
+{$ENDREGION}
 unit ooNullable;
 
 interface
@@ -37,9 +44,7 @@ type
 {$IFNDEF FPC}
     function ToType<T1>: T1;
 {$ENDIF}
-
     procedure Clear;
-
     class operator NotEqual(ValueOne, ValueTwo: TNullable<T>): Boolean; inline;
     class operator Equal(ValueOne, ValueTwo: TNullable<T>): Boolean; inline;
     class operator GreaterThan(ValueOne, ValueTwo: TNullable<T>): Boolean; inline;
@@ -50,9 +55,7 @@ type
     class operator Implicit(Value: T): TNullable<T>; inline;
     class operator Explicit(Value: TNullable<T>): T; inline;
     class operator Explicit(Value: T): TNullable<T>; inline;
-
     class function Null: TNullable<T>; static;
-
     property Value: T read _Value;
   end;
 
@@ -131,8 +134,8 @@ begin
   case Comparer.Compare(ValueOne, ValueTwo) of
     - 1, 0:
       Result := True;
-    else
-      Result := False;
+  else
+    Result := False;
   end;
 end;
 
@@ -164,6 +167,7 @@ begin
 end;
 
 {$IFNDEF FPC}
+
 function TNullable<T>.ToType<T1>: T1;
 var
   utTemp: TValue;

@@ -17,7 +17,7 @@ uses
 {$ENDIF};
 
 type
-  TListObjectsTest = class(TTestCase)
+  TListObjectsTest = class sealed(TTestCase)
   published
     procedure TestDestroyObjects;
   end;
