@@ -24,13 +24,11 @@ type
 {$ENDREGION}
   EList = class(Exception)
   end;
-
 {$REGION 'documentation'}
 // @abstract(Native type wrap for item index)
 {$ENDREGION}
 
   TIntegerIndex = NativeUInt;
-
 {$REGION 'documentation'}
 {
   @abstract(Interface of generic list)
@@ -80,6 +78,10 @@ type
     @parm(ArrayItems Array to load)
   )
   @member(
+    FromTList Load the list from an generic TList
+    @parm(List List to load)
+  )
+  @member(
     ChangeItemByIndex Change an exist item for another
     @param(Index Item index)
     @param(Item Value item)
@@ -101,11 +103,11 @@ type
     function First: T;
     function Last: T;
     procedure FromArray(const ArrayItems: array of T);
+    procedure FromTList(const List: TList<T>);
     procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear;
     property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
   end;
-
 {$REGION 'documentation'}
 {
   @abstract(Implementation of @link(IGenericList))
@@ -119,6 +121,7 @@ type
   @member(First @seealso(IGenericList.First))
   @member(Last @seealso(IGenericList.Last))
   @member(FromArray @seealso(IGenericList.FromArray))
+  @member(FromTList @seealso(IGenericList.FromTList))
   @member(ChangeItemByIndex @seealso(IGenericList.ChangeItemByIndex))
   @member(Clear @seealso(IGenericList.Clear))
   @member(Items @seealso(IGenericList.Items))
@@ -165,6 +168,7 @@ type
     procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear; virtual;
     procedure FromArray(const ArrayItems: array of T);
+    procedure FromTList(const List: TList<T>);
     constructor Create(const UseReferenceCount: Boolean = True); virtual;
     destructor Destroy; override;
     property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
@@ -245,7 +249,7 @@ end;
 function TGenericList<T>.First: T;
 begin
   if IsEmpty then
-    Result := default (T)
+    Result := default(T)
   else
     Result := ItemByIndex(0);
 end;
@@ -253,7 +257,7 @@ end;
 function TGenericList<T>.Last: T;
 begin
   if IsEmpty then
-    Result := default (T)
+    Result := default(T)
   else
     Result := ItemByIndex(Pred(Count));
 end;
@@ -279,6 +283,14 @@ var
 begin
   for i := 0 to High(ArrayItems) do
     Add(ArrayItems[i]);
+end;
+
+procedure TGenericList<T>.FromTList(const List: TList<T>);
+var
+  Item: T;
+begin
+  for Item in List do
+    Self.Add(Item);
 end;
 
 procedure TGenericList<T>.Clear;
