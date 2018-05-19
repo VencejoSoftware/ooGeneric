@@ -1,23 +1,23 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2016, Vencejo Software
+  Copyright (c) 2018, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
 {
-  Enumerator object
+  Items iterator definition
   @created(14/08/2016)
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooEnumerator;
+unit ooIterator;
 
 interface
 
 type
 {$REGION 'documentation'}
 {
-  @abstract(Interface for list enumerator)
+  @abstract(Interface for items iterator)
   @member(
     GetCurrent Return current item list
     @return(Item value)
@@ -30,7 +30,7 @@ type
   @member(Current Property to return current item)
 }
 {$ENDREGION}
-  IEnumerator<T> = interface
+  IIterator<T> = interface
     ['{FE1693FD-015C-4F18-B000-588D1EC1B641}']
     function GetCurrent: T;
     function MoveNext: Boolean;
@@ -40,31 +40,31 @@ type
 
 {$REGION 'documentation'}
 {
-  @abstract(Interface of enumerable object)
+  @abstract(Interface of iterable object)
   @member(
-    GetEnumerator Makes a enumerator for object
-    @return(Enumerator object)
+    GetEnumerator Return a @link(IIterator iterator object)
+    @return(Iterator object)
   )
-  @member(Current Property to return enumerator)
+  @member(Current Property to return iterator)
 }
 {$ENDREGION}
 
-  IEnumerable<T> = interface
+  IIterable<T> = interface
     ['{5E8253A9-345B-4438-92D7-4BC260739CAC}']
-    function GetEnumerator: IEnumerator<T>;
-    property Enumerator: IEnumerator<T> read GetEnumerator;
+    function GetEnumerator: IIterator<T>;
+    property iterator: IIterator<T> read GetEnumerator;
   end;
 
 {$REGION 'documentation'}
-// @abstract(String enumerator pre declaration)
+// @abstract(String iterator pre declaration)
 {$ENDREGION}
 
-  IStringEnumerator = IEnumerator<String>;
+  IStringEnumerator = IIterator<String>;
 
 {$REGION 'documentation'}
 // @abstract(String enumerable object declaration)
 {$ENDREGION}
-  IStringEnumerable = IEnumerable<String>;
+  IStringEnumerable = IIterable<String>;
 
 implementation
 

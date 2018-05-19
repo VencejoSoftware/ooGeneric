@@ -1,15 +1,15 @@
 {
-  Copyright (c) 2016, Vencejo Software
+  Copyright (c) 2018, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit ooList.Enumerable_test;
+unit ooIterableList_test;
 
 interface
 
 uses
   SysUtils,
-  ooList.Enumerable,
+  ooIterableList,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}
@@ -19,19 +19,18 @@ uses
 type
   TListEnumerableTest = class sealed(TTestCase)
   strict private
-    _List: TListEnumerable<Integer>;
+    _List: IIterableList<Integer>;
   protected
     procedure SetUp; override;
-    procedure TearDown; override;
   published
-    procedure TestGetEnumerator;
-    procedure TestGetEnumeratorOneItem;
-    procedure TestGetEnumeratorEmpty;
+    procedure IterateFiveItems;
+    procedure IterateOnlyOneItem;
+    procedure IteratorIsEmpty;
   end;
 
 implementation
 
-procedure TListEnumerableTest.TestGetEnumerator;
+procedure TListEnumerableTest.IterateFiveItems;
 var
   i: Integer;
   IntegerItem: Integer;
@@ -46,7 +45,7 @@ begin
   end;
 end;
 
-procedure TListEnumerableTest.TestGetEnumeratorEmpty;
+procedure TListEnumerableTest.IteratorIsEmpty;
 var
   IntegerItem: Integer;
 begin
@@ -54,12 +53,11 @@ begin
     CheckEquals(0, IntegerItem);
 end;
 
-procedure TListEnumerableTest.TestGetEnumeratorOneItem;
+procedure TListEnumerableTest.IterateOnlyOneItem;
 var
   Value, IntegerItem: Integer;
-
 begin
-  Value := -1;
+  Value := - 1;
   _List.Add(10);
   for IntegerItem in _List do
     Value := IntegerItem;
@@ -69,13 +67,7 @@ end;
 procedure TListEnumerableTest.SetUp;
 begin
   inherited;
-  _List := TListEnumerable<Integer>.Create(False);
-end;
-
-procedure TListEnumerableTest.TearDown;
-begin
-  inherited;
-  _List.Free;
+  _List := TIterableList<Integer>.New;
 end;
 
 initialization

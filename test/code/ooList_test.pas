@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2016, Vencejo Software
+  Copyright (c) 2018, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -19,62 +19,94 @@ uses
 type
   TListTest = class sealed(TTestCase)
   strict private
-    _List: TGenericList<String>;
+    _List: IList<String>;
   protected
     procedure SetUp; override;
-    procedure TearDown; override;
   published
-    procedure TestIsEmpty;
-    procedure TestCount;
-    procedure TestItems;
-    procedure TestIsValidIndex;
-    procedure TestClear;
-    procedure TestIndexOf;
-    procedure TestExists;
-    procedure TestFromArray;
+    procedure ItemByIndex2IsLine3;
+    procedure AddTwoItemsReturnCount7;
+    procedure RemoveLine2ReturnCount4;
+    procedure IsEmptyWithInitialIsFalse;
+    procedure IsEmptyWithClearIsTrue;
+    procedure CountOfInitialIs5;
+    procedure IndexOfLine4Is3;
+    procedure ExistsLine2IsTrue;
+    procedure ExistsLine99IsFalse;
+    procedure FirstItemIsLine1;
+    procedure LastItemIsLine5;
+    procedure FromArrayWithClearAdd4Items;
+    procedure FromTListAdd123Items;
+    procedure ChangeItemByIndex1ReturnExistLine2False;
+    procedure ClearOfInitialReturnCount0;
+    procedure Item0IsLine1;
+    procedure Item99RaiseError;
+    procedure ChangeItemByIndex99RaiseError;
   end;
 
 implementation
 
-procedure TListTest.TestIsValidIndex;
+procedure TListTest.ItemByIndex2IsLine3;
 begin
-  _List.Add('TestIndex1');
-  _List.Add('TestIndex2');
-  CheckTrue(_List.IsValidIndex(0));
-  CheckTrue(_List.IsValidIndex(1));
-  CheckFalse(_List.IsValidIndex(2));
+  CheckEquals('Line3', _List.ItemByIndex(2));
 end;
 
-procedure TListTest.TestClear;
+procedure TListTest.AddTwoItemsReturnCount7;
 begin
   _List.Add('TestIndex1');
   _List.Add('TestIndex2');
-  _List.Add('TestIndex3');
-  CheckEquals(3, _List.Count);
+  CheckEquals(7, _List.Count);
+end;
+
+procedure TListTest.RemoveLine2ReturnCount4;
+begin
+  _List.Remove('Line2');
+  CheckEquals(4, _List.Count);
+end;
+
+procedure TListTest.IsEmptyWithInitialIsFalse;
+begin
+  CheckFalse(_List.IsEmpty);
+end;
+
+procedure TListTest.IsEmptyWithClearIsTrue;
+begin
   _List.Clear;
   CheckTrue(_List.IsEmpty);
 end;
 
-procedure TListTest.TestCount;
+procedure TListTest.CountOfInitialIs5;
 begin
-  CheckEquals(0, _List.Count);
-  _List.Add('TestIndex1');
-  _List.Add('TestIndex2');
-  _List.Add('TestIndex3');
-  CheckEquals(3, _List.Count);
+  CheckEquals(5, _List.Count);
 end;
 
-procedure TListTest.TestExists;
+procedure TListTest.IndexOfLine4Is3;
 begin
-  _List.Add('aa');
-  _List.Add('bbb');
-  _List.Add('cccc');
-  CheckTrue(_List.Exists('cccc'));
-  CheckFalse(_List.Exists('none'));
+  CheckEquals(3, _List.IndexOf('Line4'));
 end;
 
-procedure TListTest.TestFromArray;
+procedure TListTest.ExistsLine2IsTrue;
 begin
+  CheckTrue(_List.Exists('Line2'));
+end;
+
+procedure TListTest.ExistsLine99IsFalse;
+begin
+  CheckFalse(_List.Exists('Line99'));
+end;
+
+procedure TListTest.FirstItemIsLine1;
+begin
+  CheckEquals('Line1', _List.First);
+end;
+
+procedure TListTest.LastItemIsLine5;
+begin
+  CheckEquals('Line5', _List.Last);
+end;
+
+procedure TListTest.FromArrayWithClearAdd4Items;
+begin
+  _List.Clear;
   _List.FromArray(['a', 'b', 'c', 'd']);
   CheckEquals(4, _List.Count);
   CheckTrue(_List.Exists('a'));
@@ -83,45 +115,86 @@ begin
   CheckTrue(_List.Exists('d'));
 end;
 
-procedure TListTest.TestIndexOf;
+procedure TListTest.FromTListAdd123Items;
+var
+  GenericList: TNativeGenericList<String>;
 begin
-  _List.Add('Line1');
-  _List.Add('Line2');
-  _List.Add('Line3');
-  _List.Add('Line4');
-  _List.Add('Line5');
-  CheckEquals(2, _List.IndexOf('Line3'));
+  GenericList := TNativeGenericList<String>.Create;
+  try
+    GenericList.Add('1');
+    GenericList.Add('2');
+    GenericList.Add('3');
+    _List.Clear;
+    _List.FromTList(GenericList);
+    CheckEquals(3, _List.Count);
+    CheckTrue(_List.Exists('1'));
+    CheckTrue(_List.Exists('2'));
+    CheckTrue(_List.Exists('3'));
+  finally
+    GenericList.Free;
+  end;
 end;
 
-procedure TListTest.TestIsEmpty;
+procedure TListTest.ClearOfInitialReturnCount0;
 begin
-  CheckTrue(_List.IsEmpty);
-  _List.Add('Test');
-  CheckFalse(_List.IsEmpty);
   _List.Clear;
-  CheckTrue(_List.IsEmpty);
+  CheckEquals(0, _List.Count);
 end;
 
-procedure TListTest.TestItems;
+procedure TListTest.ChangeItemByIndex1ReturnExistLine2False;
 begin
-  _List.Add('TestIndex1');
-  _List.Add('TestIndex2');
-  _List.Add('TestIndex3');
-  CheckEquals('TestIndex1', _List.Items[0]);
-  CheckEquals('TestIndex2', _List.Items[1]);
-  CheckEquals('TestIndex3', _List.Items[2]);
+  _List.ChangeItemByIndex(1, 'NewLine');
+  CheckFalse(_List.Exists('Line2'));
+end;
+
+procedure TListTest.Item0IsLine1;
+begin
+  CheckEquals('Line1', _List.Items[0]);
+end;
+
+procedure TListTest.Item99RaiseError;
+var
+  Failed: Boolean;
+begin
+  Failed := False;
+  try
+    CheckEquals('Line99', _List.Items[99]);
+  except
+    on E: EList do
+    begin
+      CheckEquals('Invalid index', E.Message);
+      Failed := True;
+    end;
+  end;
+  CheckTrue(Failed);
+end;
+
+procedure TListTest.ChangeItemByIndex99RaiseError;
+var
+  Failed: Boolean;
+begin
+  Failed := False;
+  try
+    _List.ChangeItemByIndex(99, 'a');
+  except
+    on E: EList do
+    begin
+      CheckEquals('Invalid index', E.Message);
+      Failed := True;
+    end;
+  end;
+  CheckTrue(Failed);
 end;
 
 procedure TListTest.SetUp;
 begin
   inherited;
-  _List := TGenericList<String>.Create(False);
-end;
-
-procedure TListTest.TearDown;
-begin
-  inherited;
-  _List.Free;
+  _List := TListGeneric<String>.New;
+  _List.Add('Line1');
+  _List.Add('Line2');
+  _List.Add('Line3');
+  _List.Add('Line4');
+  _List.Add('Line5');
 end;
 
 initialization

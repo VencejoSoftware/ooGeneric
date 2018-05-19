@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2016, Vencejo Software
+  Copyright (c) 2018, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -10,57 +10,61 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooList.Objects;
+unit ooObjectList;
 
 interface
 
+{$IFNDEF FPC}
+{$IF CompilerVersion > 21}{$DEFINE FreeWithRTTI}{$IFEND}
+{$ENDIF}
+
 uses
   SysUtils, TypInfo,
-{$IFNDEF FPC}{$IF CompilerVersion > 21}
+{$IFDEF FreeWithRTTI}
   RTTI,
-{$ENDIF}{$ENDIF}
-  ooList.Filtrable;
+{$ENDIF}
+  ooFiltrableList;
 
 type
 {$REGION 'documentation'}
 {
-  @abstract(Implementation of @link(TListFiltrable))
+  @abstract(Implementation of @link(TFiltrableList))
+  Generic list with autodestroy items capabilities
   @member(
-    IsTypeOfObject Checks if the generic type if a class
+    IsObject Checks if the generic type if a class
     @return(@true if generic = Class object, @false if not)
   )
   @member(
-    FreeGenericItem Destroy item object
+    FreeGenericItem Destroy object based in RTTI
     @param(Item object)
   )
   @member(FreeObjects Destroy all items in list)
   @member(Clear Override clear method to destroy all objects if need)
   @member(
     Create Object constructor
-    @param(DestroyItems If setted to @true the list objects is owner of all items and autodestroy)
-    @param(UseReferenceCount Use list in interface mode)
+    @param(DestroyItems If setted to @true the list objects is owner of all items and destroy them)
   )
 }
 {$ENDREGION}
-  TListObjects<T> = class(TListFiltrable<T>)
+  TListObjects<T> = class(TFiltrableList<T>)
   strict private
     _DestroyItems: Boolean;
   private
-    function IsClassObject: Boolean;
-{$IFNDEF FPC}{$IF CompilerVersion > 21}
-    procedure FreeGenericItem(Some: T);
-{$ENDIF}{$ENDIF}
+    function IsObject: Boolean;
+{$IFDEF FreeWithRTTI}
+    procedure FreeGenericItem(Item: T);
+{$ENDIF}
     procedure FreeObjects;
   public
     procedure Clear; override;
-    constructor Create(const DestroyItems, UseReferenceCount: Boolean); reintroduce; virtual;
+    constructor Create(const DestroyItems: Boolean); reintroduce; virtual;
   end;
 
 implementation
 
-{$IFNDEF FPC}{$IF CompilerVersion > 21}
+{$IFDEF FreeWithRTTI}
 
-procedure TListObjects<T>.FreeGenericItem(Some: T);
+procedure TListObjects<T>.FreeGenericItem(Item: T);
 var
   RttiContext: TRttiContext;
   RttiType: TRttiType;
@@ -72,43 +76,42 @@ begin
   RttiType := RttiContext.GetType(TypeInfo(T));
   FreeMethod := RttiType.GetMethod('Free');
   if (FreeMethod <> nil) then
-    FreeMethod.Invoke(TValue.From<T>(Some), []);
+    FreeMethod.Invoke(TValue.From<T>(Item), []);
 end;
-{$ENDIF}{$ENDIF}
+{$ENDIF}
 
 procedure TListObjects<T>.FreeObjects;
 var
   i: Integer;
   ObjectItem: TObject;
 begin
-  if IsEmpty then
-    Exit;
-  for i := 0 to Pred(Count) do
-  begin
-{$IFNDEF FPC}{$IF CompilerVersion > 21}
-    FreeGenericItem(Items[i])
+  if not IsEmpty then
+    for i := Pred(Count) downto 0 do
+    begin
+{$IFDEF FreeWithRTTI}
+      FreeGenericItem(Items[i])
 {$ELSE}
-    ObjectItem := TObject(Items[i]);
-    FreeAndNil(ObjectItem);
-{$ENDIF}{$ENDIF}
-  end;
+      ObjectItem := TObject(Items[i]);
+      FreeAndNil(ObjectItem);
+{$ENDIF}
+    end;
 end;
 
-function TListObjects<T>.IsClassObject: Boolean;
+function TListObjects<T>.IsObject: Boolean;
 begin
   Result := (PTypeInfo(TypeInfo(T)).Kind = tkClass);
 end;
 
 procedure TListObjects<T>.Clear;
 begin
-  if _DestroyItems and IsClassObject then
+  if _DestroyItems and IsObject then
     FreeObjects;
   inherited;
 end;
 
-constructor TListObjects<T>.Create(const DestroyItems, UseReferenceCount: Boolean);
+constructor TListObjects<T>.Create(const DestroyItems: Boolean);
 begin
-  inherited Create(UseReferenceCount);
+  inherited Create;
   _DestroyItems := DestroyItems;
 end;
 
