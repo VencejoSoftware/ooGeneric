@@ -6,24 +6,24 @@
 program test;
 
 uses
-  ooRunTest,
-  ooFiltrableList in '..\..\code\ooFiltrableList.pas',
-  ooIterableList in '..\..\code\ooIterableList.pas',
-  ooIterator.FilterList in '..\..\code\ooIterator.FilterList.pas',
-  ooIterator.List in '..\..\code\ooIterator.List.pas',
-  ooIterator in '..\..\code\ooIterator.pas',
-  ooList in '..\..\code\ooList.pas',
-  ooNullable in '..\..\code\ooNullable.pas',
-  ooObjectList in '..\..\code\ooObjectList.pas',
-  ooIterator.List_test in '..\code\ooIterator.List_test.pas',
-  ooIterator.FilterList_test in '..\code\ooIterator.FilterList_test.pas',
-  ooIterableList_test in '..\code\ooIterableList_test.pas',
-  ooFiltrableList_test in '..\code\ooFiltrableList_test.pas',
-  ooList_test in '..\code\ooList_test.pas',
-  ooObjectList_test in '..\code\ooObjectList_test.pas',
-  ooNullable_test in '..\code\ooNullable_test.pas' {R *.RES};
+  RunTest,
+  FiltrableList in '..\..\code\FiltrableList.pas',
+  IterableList in '..\..\code\IterableList.pas',
+  FilterListIterator in '..\..\code\FilterListIterator.pas',
+  ListIterator in '..\..\code\ListIterator.pas',
+  Iterator in '..\..\code\Iterator.pas',
+  List in '..\..\code\List.pas',
+  Nullable in '..\..\code\Nullable.pas',
+  ObjectList in '..\..\code\ObjectList.pas',
+  ListIterator_test in '..\code\ListIterator_test.pas',
+  FilterListIterator_test in '..\code\FilterListIterator_test.pas',
+  IterableList_test in '..\code\IterableList_test.pas',
+  FiltrableList_test in '..\code\FiltrableList_test.pas',
+  List_test in '..\code\List_test.pas',
+  ObjectList_test in '..\code\ObjectList_test.pas',
+  Nullable_test in '..\code\Nullable_test.pas';
 
-{ R *.RES }
+{R *.RES}
 
 begin
   Run;

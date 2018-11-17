@@ -84,21 +84,21 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\..\code\ooFiltrableList.pas"/>
-        <DCCReference Include="..\..\code\ooIterableList.pas"/>
-        <DCCReference Include="..\..\code\ooIterator.FilterList.pas"/>
-        <DCCReference Include="..\..\code\ooIterator.List.pas"/>
-        <DCCReference Include="..\..\code\ooIterator.pas"/>
-        <DCCReference Include="..\..\code\ooList.pas"/>
-        <DCCReference Include="..\..\code\ooNullable.pas"/>
-        <DCCReference Include="..\..\code\ooObjectList.pas"/>
-        <DCCReference Include="..\code\ooIterator.List_test.pas"/>
-        <DCCReference Include="..\code\ooIterator.FilterList_test.pas"/>
-        <DCCReference Include="..\code\ooIterableList_test.pas"/>
-        <DCCReference Include="..\code\ooFiltrableList_test.pas"/>
-        <DCCReference Include="..\code\ooList_test.pas"/>
-        <DCCReference Include="..\code\ooObjectList_test.pas"/>
-        <DCCReference Include="..\code\ooNullable_test.pas">
+        <DCCReference Include="..\..\code\FiltrableList.pas"/>
+        <DCCReference Include="..\..\code\IterableList.pas"/>
+        <DCCReference Include="..\..\code\FilterListIterator.pas"/>
+        <DCCReference Include="..\..\code\ListIterator.pas"/>
+        <DCCReference Include="..\..\code\Iterator.pas"/>
+        <DCCReference Include="..\..\code\List.pas"/>
+        <DCCReference Include="..\..\code\Nullable.pas"/>
+        <DCCReference Include="..\..\code\ObjectList.pas"/>
+        <DCCReference Include="..\code\ListIterator_test.pas"/>
+        <DCCReference Include="..\code\FilterListIterator_test.pas"/>
+        <DCCReference Include="..\code\IterableList_test.pas"/>
+        <DCCReference Include="..\code\FiltrableList_test.pas"/>
+        <DCCReference Include="..\code\List_test.pas"/>
+        <DCCReference Include="..\code\ObjectList_test.pas"/>
+        <DCCReference Include="..\code\Nullable_test.pas">
             <Form>R *.RES</Form>
         </DCCReference>
         <BuildConfiguration Include="Debug">

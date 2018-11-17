@@ -3,13 +3,13 @@
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit ooFiltrableList_test;
+unit FiltrableList_test;
 
 interface
 
 uses
   SysUtils,
-  ooFiltrableList,
+  FiltrableList,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}

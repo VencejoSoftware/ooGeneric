@@ -122,67 +122,67 @@
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="..\code\ooFiltered.List_test.pas"/>
+        <Filename Value="..\code\FilteredList_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="..\code\ooList_test.pas"/>
+        <Filename Value="..\code\List_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\code\ooNullable_test.pas"/>
+        <Filename Value="..\code\Nullable_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="..\code\ooFiltrableList_test.pas"/>
+        <Filename Value="..\code\FiltrableList_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\code\ooIterableList_test.pas"/>
+        <Filename Value="..\code\IterableList_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\code\ooIterator.FilterList_test.pas"/>
+        <Filename Value="..\code\FilterListIterator_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\code\ooIterator.List_test.pas"/>
+        <Filename Value="..\code\ListIterator_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\code\ooObjectList_test.pas"/>
+        <Filename Value="..\code\ObjectList_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit8>
       <Unit9>
-        <Filename Value="..\..\code\ooFiltrableList.pas"/>
+        <Filename Value="..\..\code\FiltrableList.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="..\..\code\ooIterableList.pas"/>
+        <Filename Value="..\..\code\IterableList.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="..\..\code\ooIterator.FilterList.pas"/>
+        <Filename Value="..\..\code\FilterListIterator.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="..\..\code\ooIterator.List.pas"/>
+        <Filename Value="..\..\code\ListIterator.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="..\..\code\ooIterator.pas"/>
+        <Filename Value="..\..\code\Iterator.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="..\..\code\ooList.pas"/>
+        <Filename Value="..\..\code\List.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="..\..\code\ooNullable.pas"/>
+        <Filename Value="..\..\code\Nullable.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="..\..\code\ooObjectList.pas"/>
+        <Filename Value="..\..\code\ObjectList.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
     </Units>
