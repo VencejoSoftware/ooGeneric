@@ -3,13 +3,13 @@
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit ooObjectList_test;
+unit ObjectList_test;
 
 interface
 
 uses
   SysUtils,
-  ooObjectList,
+  ObjectList,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}
@@ -17,18 +17,18 @@ uses
 {$ENDIF};
 
 type
-  TListObjectsTest = class sealed(TTestCase)
+  TObjectListTest = class sealed(TTestCase)
   published
     procedure DestroyObjectsClearAll;
   end;
 
 implementation
 
-procedure TListObjectsTest.DestroyObjectsClearAll;
+procedure TObjectListTest.DestroyObjectsClearAll;
 var
-  List: TListObjects<TObject>;
+  List: TObjectList<TObject>;
 begin
-  List := TListObjects<TObject>.Create(True);
+  List := TObjectList<TObject>.Create(True);
   try
     List.Add(TObject.Create);
     List.Add(TObject.Create);
@@ -44,6 +44,6 @@ end;
 
 initialization
 
-RegisterTest(TListObjectsTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest(TObjectListTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

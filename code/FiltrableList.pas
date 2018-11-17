@@ -10,14 +10,14 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooFiltrableList;
+unit FiltrableList;
 
 interface
 
 uses
-  ooIterator,
-  ooIterableList,
-  ooIterator.FilterList;
+  Iterator,
+  IterableList,
+  FilterListIterator;
 
 type
 {$REGION 'documentation'}
@@ -32,9 +32,9 @@ type
 {$ENDREGION}
   IFiltrableList<T> = interface(IIterableList<T>)
     ['{55E41190-7830-405F-A585-33BCA2BBE78E}']
-    function Filter(const Condition: TConditionCallback<T>): IIteratorFilterList<T>;
+    function Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 {$IFDEF FPC}
-    function FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IIteratorFilterList<T>;
+    function FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IFilterListIterator<T>;
 {$ENDIF}
   end;
 
@@ -50,25 +50,25 @@ type
 
   TFiltrableList<T> = class(TIterableList<T>, IFiltrableList<T>)
   public
-    function Filter(const Condition: TConditionCallback<T>): IIteratorFilterList<T>;
+    function Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 {$IFDEF FPC}
-    function FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IIteratorFilterList<T>;
+    function FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IFilterListIterator<T>;
 {$ENDIF}
     class function New: IFiltrableList<T>; static;
   end;
 
 implementation
 
-function TFiltrableList<T>.Filter(const Condition: TConditionCallback<T>): IIteratorFilterList<T>;
+function TFiltrableList<T>.Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 begin
-  Result := TIteratorFilterList<T>.New(Self, Condition);
+  Result := TFilterListIterator<T>.New(Self, Condition);
 end;
 
 {$IFDEF FPC}
 
-function TFiltrableList<T>.FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IIteratorFilterList<T>;
+function TFiltrableList<T>.FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IFilterListIterator<T>;
 begin
-  Result := TIteratorFilterList<T>.NewOfObjec(Self, Condition);
+  Result := TFilterListIterator<T>.NewOfObjec(Self, Condition);
 end;
 {$ENDIF}
 

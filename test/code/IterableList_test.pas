@@ -3,13 +3,13 @@
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit ooIterableList_test;
+unit IterableList_test;
 
 interface
 
 uses
   SysUtils,
-  ooIterableList,
+  IterableList,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}

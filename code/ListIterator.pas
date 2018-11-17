@@ -10,13 +10,13 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooIterator.List;
+unit ListIterator;
 
 interface
 
 uses
-  ooList,
-  ooIterator;
+  List,
+  Iterator;
 
 type
 {$REGION 'documentation'}
@@ -37,7 +37,7 @@ type
   )
 }
 {$ENDREGION}
-  TIteratorList<T> = class sealed(TInterfacedObject, IIterator<T>)
+  TListIterator<T> = class sealed(TInterfacedObject, IIterator<T>)
   strict private
     _Reseted: Boolean;
     _Index: TIntegerIndex;
@@ -53,12 +53,12 @@ type
 
 implementation
 
-function TIteratorList<T>.GetCurrent: T;
+function TListIterator<T>.GetCurrent: T;
 begin
   Result := _List.ItemByIndex(_Index);
 end;
 
-function TIteratorList<T>.MoveNext: Boolean;
+function TListIterator<T>.MoveNext: Boolean;
 begin
   if _Reseted then
     _Reseted := False
@@ -67,22 +67,22 @@ begin
   Result := _Index < _List.Count;
 end;
 
-procedure TIteratorList<T>.Reset;
+procedure TListIterator<T>.Reset;
 begin
   _Index := 0;
   _Reseted := True;
 end;
 
-constructor TIteratorList<T>.Create(const List: IList<T>);
+constructor TListIterator<T>.Create(const List: IList<T>);
 begin
   inherited Create;
   _List := List;
   Reset;
 end;
 
-class function TIteratorList<T>.New(const List: IList<T>): IIterator<T>;
+class function TListIterator<T>.New(const List: IList<T>): IIterator<T>;
 begin
-  Result := TIteratorList<T>.Create(List);
+  Result := TListIterator<T>.Create(List);
 end;
 
 end.

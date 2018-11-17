@@ -3,13 +3,13 @@
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit ooNullable_test;
+unit Nullable_test;
 
 interface
 
 uses
   SysUtils,
-  ooNullable,
+  Nullable,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}

@@ -57,9 +57,6 @@ end;
 ### Demo
 See the project example at the demo folder.
 
-## Dependencies
-* [generics.collections](https://github.com/VencejoSoftware/generics.collections.git) - FreePascal Generics.Collections library
-
 ## Built With
 * [Delphi&reg;](https://www.embarcadero.com/products/rad-studio) - Embarcadero&trade; commercial IDE
 * [Lazarus](https://www.lazarus-ide.org/) - The Lazarus project

@@ -10,7 +10,7 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooObjectList;
+unit ObjectList;
 
 interface
 
@@ -23,7 +23,7 @@ uses
 {$IFDEF FreeWithRTTI}
   RTTI,
 {$ENDIF}
-  ooFiltrableList;
+  FiltrableList;
 
 type
 {$REGION 'documentation'}
@@ -46,7 +46,7 @@ type
   )
 }
 {$ENDREGION}
-  TListObjects<T> = class(TFiltrableList<T>)
+  TObjectList<T> = class(TFiltrableList<T>)
   strict private
     _DestroyItems: Boolean;
   private
@@ -64,7 +64,7 @@ implementation
 
 {$IFDEF FreeWithRTTI}
 
-procedure TListObjects<T>.FreeGenericItem(Item: T);
+procedure TObjectList<T>.FreeGenericItem(Item: T);
 var
   RttiContext: TRttiContext;
   RttiType: TRttiType;
@@ -80,7 +80,7 @@ begin
 end;
 {$ENDIF}
 
-procedure TListObjects<T>.FreeObjects;
+procedure TObjectList<T>.FreeObjects;
 var
   i: Integer;
   ObjectItem: TObject;
@@ -97,19 +97,19 @@ begin
     end;
 end;
 
-function TListObjects<T>.IsObject: Boolean;
+function TObjectList<T>.IsObject: Boolean;
 begin
   Result := (PTypeInfo(TypeInfo(T)).Kind = tkClass);
 end;
 
-procedure TListObjects<T>.Clear;
+procedure TObjectList<T>.Clear;
 begin
   if _DestroyItems and IsObject then
     FreeObjects;
   inherited;
 end;
 
-constructor TListObjects<T>.Create(const DestroyItems: Boolean);
+constructor TObjectList<T>.Create(const DestroyItems: Boolean);
 begin
   inherited Create;
   _DestroyItems := DestroyItems;

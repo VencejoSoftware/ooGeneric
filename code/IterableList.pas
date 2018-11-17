@@ -10,14 +10,14 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooIterableList;
+unit IterableList;
 
 interface
 
 uses
-  ooList,
-  ooIterator,
-  ooIterator.List;
+  List,
+  Iterator,
+  ListIterator;
 
 type
 {$REGION 'documentation'}
@@ -54,7 +54,7 @@ implementation
 
 function TIterableList<T>.GetEnumerator: IIterator<T>;
 begin
-  Result := TIteratorList<T>.New(Self);
+  Result := TListIterator<T>.New(Self);
 end;
 
 class function TIterableList<T>.New: IIterableList<T>;

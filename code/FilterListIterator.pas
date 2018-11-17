@@ -10,14 +10,14 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooIterator.FilterList;
+unit FilterListIterator;
 
 interface
 
 uses
-  ooIterator,
-  ooIterator.List,
-  ooList;
+  Iterator,
+  ListIterator,
+  List;
 
 type
 {$REGION 'documentation'}
@@ -47,7 +47,7 @@ type
 }
 {$ENDREGION}
 
-  IIteratorFilterList<T> = interface(IIterator<T>)
+  IFilterListIterator<T> = interface(IIterator<T>)
     ['{BE08A393-0574-4437-9046-FA3EE0C350F8}']
     function GetEnumerator: IIterator<T>;
     function IsValidItem(const Item: T): boolean;
@@ -55,9 +55,9 @@ type
 
 {$REGION 'documentation'}
 {
-  @abstract(Implementation of @link(IIteratorFilterList))
-  @member(GetEnumerator @seealso(IIteratorFilterList.GetEnumerator))
-  @member(IsValidItem @seealso(IIteratorFilterList.IsValidItem))
+  @abstract(Implementation of @link(IFilterListIterator))
+  @member(GetEnumerator @seealso(IFilterListIterator.GetEnumerator))
+  @member(IsValidItem @seealso(IFilterListIterator.IsValidItem))
   @member(
     MoveNext Override MoveNext to use condition callback
   )
@@ -74,7 +74,7 @@ type
 }
 {$ENDREGION}
 
-  TIteratorFilterList<T> = class sealed(TInterfacedObject, IIteratorFilterList<T>, IIterator<T>)
+  TFilterListIterator<T> = class sealed(TInterfacedObject, IFilterListIterator<T>, IIterator<T>)
   strict private
     _ConditionCallback: TConditionCallback<T>;
 {$IFDEF FPC}
@@ -92,16 +92,16 @@ type
 {$IFDEF FPC}
       ; const ConditionCallbackOfObject: TConditionCallbackOfObject<T>
 {$ENDIF});
-    class function New(const List: IList<T>; const Condition: TConditionCallback<T>): IIteratorFilterList<T>;
+    class function New(const List: IList<T>; const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 {$IFDEF FPC}
     class function NewOfObjec(const List: IList<T>; const Condition: TConditionCallbackOfObject<T>)
-      : IIteratorFilterList<T>;
+      : IFilterListIterator<T>;
 {$ENDIF}
   end;
 
 implementation
 
-function TIteratorFilterList<T>.MoveNext: boolean;
+function TFilterListIterator<T>.MoveNext: boolean;
 begin
   Result := False;
   while _Iterator.MoveNext do
@@ -109,17 +109,17 @@ begin
       Exit(True);
 end;
 
-function TIteratorFilterList<T>.GetCurrent: T;
+function TFilterListIterator<T>.GetCurrent: T;
 begin
   Result := _Iterator.Current;
 end;
 
-procedure TIteratorFilterList<T>.Reset;
+procedure TFilterListIterator<T>.Reset;
 begin
   _Iterator.Reset;
 end;
 
-function TIteratorFilterList<T>.IsValidItem(const Item: T): boolean;
+function TFilterListIterator<T>.IsValidItem(const Item: T): boolean;
 begin
   if Assigned(_ConditionCallback) then
     Result := _ConditionCallback(Item)
@@ -132,36 +132,36 @@ begin
       Result := False;
 end;
 
-function TIteratorFilterList<T>.GetEnumerator: IIterator<T>;
+function TFilterListIterator<T>.GetEnumerator: IIterator<T>;
 begin
   Result := Self;
 end;
 
-constructor TIteratorFilterList<T>.Create(const List: IList<T>; const Condition: TConditionCallback<T>
+constructor TFilterListIterator<T>.Create(const List: IList<T>; const Condition: TConditionCallback<T>
 {$IFDEF FPC}
   ; const ConditionCallbackOfObject: TConditionCallbackOfObject<T>
 {$ENDIF});
 begin
   inherited Create;
-  _Iterator := TIteratorList<T>.New(List);
+  _Iterator := TListIterator<T>.New(List);
   _ConditionCallback := Condition;
 {$IFDEF FPC}
   _ConditionCallbackOfObject := ConditionCallbackOfObject;
 {$ENDIF}
 end;
 
-class function TIteratorFilterList<T>.New(const List: IList<T>; const Condition: TConditionCallback<T>)
-  : IIteratorFilterList<T>;
+class function TFilterListIterator<T>.New(const List: IList<T>; const Condition: TConditionCallback<T>)
+  : IFilterListIterator<T>;
 begin
-  Result := TIteratorFilterList<T>.Create(List, Condition{$IFDEF FPC}, nil{$ENDIF});
+  Result := TFilterListIterator<T>.Create(List, Condition{$IFDEF FPC}, nil{$ENDIF});
 end;
 
 {$IFDEF FPC}
 
-class function TIteratorFilterList<T>.NewOfObjec(const List: IList<T>; const Condition: TConditionCallbackOfObject<T>)
-  : IIteratorFilterList<T>;
+class function TFilterListIterator<T>.NewOfObjec(const List: IList<T>; const Condition: TConditionCallbackOfObject<T>)
+  : IFilterListIterator<T>;
 begin
-  Result := TIteratorFilterList<T>.Create(List, nil, Condition);
+  Result := TFilterListIterator<T>.Create(List, nil, Condition);
 end;
 {$ENDIF}
 

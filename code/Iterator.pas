@@ -10,7 +10,7 @@
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit ooIterator;
+unit Iterator;
 
 interface
 
@@ -52,7 +52,7 @@ type
   IIterable<T> = interface
     ['{5E8253A9-345B-4438-92D7-4BC260739CAC}']
     function GetEnumerator: IIterator<T>;
-    property iterator: IIterator<T> read GetEnumerator;
+    property Iterator: IIterator<T> read GetEnumerator;
   end;
 
 {$REGION 'documentation'}

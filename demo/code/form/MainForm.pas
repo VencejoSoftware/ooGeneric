@@ -10,7 +10,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls,
-  ooFiltrableList;
+  FiltrableList;
 
 type
   TMainForm = class(TForm)
@@ -29,7 +29,11 @@ var
 
 implementation
 
+{$IFDEF FPC}
+{$R *.lfm}
+{$ELSE}
 {$R *.dfm}
+{$ENDIF}
 
 function TMainForm.FilterCondition(const Item: String): Boolean;
 begin

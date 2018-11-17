@@ -3,14 +3,14 @@
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit ooIterator.FilterList_test;
+unit FilterListIterator_test;
 
 interface
 
 uses
   SysUtils,
-  ooList,
-  ooIterator, ooIterator.FilterList,
+  List,
+  Iterator, FilterListIterator,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}
@@ -18,7 +18,7 @@ uses
 {$ENDIF};
 
 type
-  TIteratorFilterListTest = class sealed(TTestCase)
+  TFilterListIteratorTest = class sealed(TTestCase)
   protected
     _List: IList<String>;
   protected
@@ -37,31 +37,31 @@ begin
   Result := CharInSet(Value[1], ['A', 'B', 'C']);
 end;
 
-procedure TIteratorFilterListTest.NextWithEmptyListIsFalse;
+procedure TFilterListIteratorTest.NextWithEmptyListIsFalse;
 var
   Iterator: IIterator<String>;
 begin
-  Iterator := TIteratorFilterList<String>.New(_List, ABCCondition);
+  Iterator := TFilterListIterator<String>.New(_List, ABCCondition);
   _List.Clear;
   CheckFalse(Iterator.MoveNext);
 end;
 
-procedure TIteratorFilterListTest.CurrentValueIsA;
+procedure TFilterListIteratorTest.CurrentValueIsA;
 var
   Iterator: IIterator<String>;
 begin
-  Iterator := TIteratorFilterList<String>.New(_List, ABCCondition);
+  Iterator := TFilterListIterator<String>.New(_List, ABCCondition);
   CheckEquals('A', Iterator.Current);
 end;
 
-procedure TIteratorFilterListTest.IterateABC;
+procedure TFilterListIteratorTest.IterateABC;
 const
   ITEM_EXPECTED: array [0 .. 2] of string = ('A', 'B', 'C');
 var
   Iterator: IIterator<String>;
   i: Byte;
 begin
-  Iterator := TIteratorFilterList<String>.New(_List, ABCCondition);
+  Iterator := TFilterListIterator<String>.New(_List, ABCCondition);
   i := 0;
   while Iterator.MoveNext do
   begin
@@ -75,14 +75,14 @@ begin
   Result := Pos('word', LowerCase(Value)) > 0;
 end;
 
-procedure TIteratorFilterListTest.IterateWord;
+procedure TFilterListIteratorTest.IterateWord;
 const
   ITEM_EXPECTED: array [0 .. 1] of string = ('Word1', 'Word 1 word 2 word 3');
 var
   Iterator: IIterator<String>;
   i: Byte;
 begin
-  Iterator := TIteratorFilterList<String>.New(_List, WordCondition);
+  Iterator := TFilterListIterator<String>.New(_List, WordCondition);
   i := 0;
   while Iterator.MoveNext do
   begin
@@ -91,7 +91,7 @@ begin
   end;
 end;
 
-procedure TIteratorFilterListTest.SetUp;
+procedure TFilterListIteratorTest.SetUp;
 begin
   inherited;
   _List := TListGeneric<String>.New;
@@ -107,6 +107,6 @@ end;
 
 initialization
 
-RegisterTest(TIteratorFilterListTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest(TFilterListIteratorTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.
