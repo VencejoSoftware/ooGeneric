@@ -1,16 +1,16 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2019, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
 {
-  Generic filtrable list definition
+  Generic filterable data list definition
   @created(14/08/2016)
   @author Vencejo Software <www.vencejosoft.com>
 }
 {$ENDREGION}
-unit FiltrableList;
+unit FilterableList;
 
 interface
 
@@ -22,7 +22,7 @@ uses
 type
 {$REGION 'documentation'}
 {
-  @abstract(Interface for filtrable list)
+  @abstract(Interface for filterable item list)
   @member(
     Filter Filter the list with some Condition
     @param(Condition Filter condition to apply)
@@ -30,7 +30,7 @@ type
   )
 }
 {$ENDREGION}
-  IFiltrableList<T> = interface(IIterableList<T>)
+  IFilterableList<T> = interface(IIterableList<T>)
     ['{55E41190-7830-405F-A585-33BCA2BBE78E}']
     function Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 {$IFDEF FPC}
@@ -40,41 +40,41 @@ type
 
 {$REGION 'documentation'}
 {
-  @abstract(Implementation of @link(IFiltrableList))
-  @member(Filter @seealso(IFiltrableList.Filter))
+  @abstract(Implementation of @link(IFilterableList))
+  @member(Filter @seealso(IFilterableList.Filter))
   @member(
     New Create a new @classname as interface
   )
 }
 {$ENDREGION}
 
-  TFiltrableList<T> = class(TIterableList<T>, IFiltrableList<T>)
+  TFilterableList<T> = class(TIterableList<T>, IFilterableList<T>)
   public
     function Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 {$IFDEF FPC}
     function FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IFilterListIterator<T>;
 {$ENDIF}
-    class function New: IFiltrableList<T>; static;
+    class function New: IFilterableList<T>; static;
   end;
 
 implementation
 
-function TFiltrableList<T>.Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
+function TFilterableList<T>.Filter(const Condition: TConditionCallback<T>): IFilterListIterator<T>;
 begin
   Result := TFilterListIterator<T>.New(Self, Condition);
 end;
 
 {$IFDEF FPC}
 
-function TFiltrableList<T>.FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IFilterListIterator<T>;
+function TFilterableList<T>.FilterOfObjec(const Condition: TConditionCallbackOfObject<T>): IFilterListIterator<T>;
 begin
   Result := TFilterListIterator<T>.NewOfObjec(Self, Condition);
 end;
 {$ENDIF}
 
-class function TFiltrableList<T>.New: IFiltrableList<T>;
+class function TFilterableList<T>.New: IFilterableList<T>;
 begin
-  Result := TFiltrableList<T>.Create;
+  Result := TFilterableList<T>.Create;
 end;
 
 end.

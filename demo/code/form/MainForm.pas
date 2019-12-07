@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2018 Vencejo Software
+  Copyright (c) 2019 Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -10,7 +10,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls,
-  FiltrableList;
+  FilterableList;
 
 type
   TMainForm = class(TForm)
@@ -19,7 +19,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure Edit1Change(Sender: TObject);
   private
-    List: IFiltrableList<String>;
+    List: IFilterableList<String>;
     procedure UpdateList;
     function FilterCondition(const Item: String): Boolean;
   end;
@@ -56,7 +56,7 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  List := TFiltrableList<String>.New;
+  List := TFilterableList<String>.New;
   List.Add('A');
   List.Add('Words');
   List.Add('B');

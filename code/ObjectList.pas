@@ -1,6 +1,6 @@
 {$REGION 'documentation'}
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2019, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -23,12 +23,12 @@ uses
 {$IFDEF FreeWithRTTI}
   RTTI,
 {$ENDIF}
-  FiltrableList;
+  FilterableList;
 
 type
 {$REGION 'documentation'}
 {
-  @abstract(Implementation of @link(TFiltrableList))
+  @abstract(Implementation of @link(TFilterableList))
   Generic list with autodestroy items capabilities
   @member(
     IsObject Checks if the generic type if a class
@@ -46,7 +46,7 @@ type
   )
 }
 {$ENDREGION}
-  TObjectList<T> = class(TFiltrableList<T>)
+  TObjectList<T> = class(TFilterableList<T>)
   strict private
     _DestroyItems: Boolean;
   private
