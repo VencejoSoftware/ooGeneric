@@ -1,15 +1,15 @@
 {
-  Copyright (c) 2018, Vencejo Software
+  Copyright (c) 2019, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
-unit FiltrableList_test;
+unit FilterableList_test;
 
 interface
 
 uses
   SysUtils,
-  FiltrableList,
+  FilterableList,
 {$IFDEF FPC}
   fpcunit, testregistry
 {$ELSE}
@@ -17,9 +17,9 @@ uses
 {$ENDIF};
 
 type
-  TFiltrableListTest = class sealed(TTestCase)
+  TFilterableListTest = class sealed(TTestCase)
   strict private
-    _List: IFiltrableList<String>;
+    _List: IFilterableList<String>;
   protected
     procedure SetUp; override;
   published
@@ -33,7 +33,7 @@ begin
   Result := CharInSet(Value[1], ['0', '2', '4', '6', '8']) or (Value = '10');
 end;
 
-procedure TFiltrableListTest.FilterMultipleOfTwo;
+procedure TFilterableListTest.FilterMultipleOfTwo;
 var
   i: Byte;
   Item: String;
@@ -46,18 +46,18 @@ begin
   end;
 end;
 
-procedure TFiltrableListTest.SetUp;
+procedure TFilterableListTest.SetUp;
 var
   i: Byte;
 begin
   inherited;
-  _List := TFiltrableList<String>.New;
+  _List := TFilterableList<String>.New;
   for i := 0 to 10 do
     _List.Add(IntToStr(i));
 end;
 
 initialization
 
-RegisterTest(TFiltrableListTest {$IFNDEF FPC}.Suite {$ENDIF});
+RegisterTest(TFilterableListTest {$IFNDEF FPC}.Suite {$ENDIF});
 
 end.

@@ -24,12 +24,12 @@ begin
 end;
 ```
 
-### Example of a filtrable list
-The TFiltrableList allow to reduce the items of a list with a criteria condition, for example:
+### Example of a filterable list
+The TFilterableList allow to reduce the items of a list with a criteria condition, for example:
 
 ```pascal
 uses
-  ooFiltrableList
+  ooFilterableList
 ...
 
 function Condition(const Value: Byte): Boolean;
@@ -38,15 +38,15 @@ begin
 end;
 
 var
-  FiltrableList: IFiltrableList<Byte>;
+  FilterableList: IFilterableList<Byte>;
   Item: Byte;
 begin
-  FiltrableList := TFiltrableList<Byte>.New;
-  FiltrableList.Add(1);
-  FiltrableList.Add(20);
-  FiltrableList.Add(30);
-  FiltrableList.Add(40);
-  FiltrableList.Add(40);
+  FilterableList := TFilterableList<Byte>.New;
+  FilterableList.Add(1);
+  FilterableList.Add(20);
+  FilterableList.Add(30);
+  FilterableList.Add(40);
+  FilterableList.Add(40);
   for Item in _List.Filter(Condition) do
   begin
     ...

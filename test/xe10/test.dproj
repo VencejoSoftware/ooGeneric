@@ -84,7 +84,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\..\code\FiltrableList.pas"/>
+        <DCCReference Include="..\..\code\FilterableList.pas"/>
         <DCCReference Include="..\..\code\IterableList.pas"/>
         <DCCReference Include="..\..\code\FilterListIterator.pas"/>
         <DCCReference Include="..\..\code\ListIterator.pas"/>
@@ -95,7 +95,7 @@
         <DCCReference Include="..\code\ListIterator_test.pas"/>
         <DCCReference Include="..\code\FilterListIterator_test.pas"/>
         <DCCReference Include="..\code\IterableList_test.pas"/>
-        <DCCReference Include="..\code\FiltrableList_test.pas"/>
+        <DCCReference Include="..\code\FilterableList_test.pas"/>
         <DCCReference Include="..\code\List_test.pas"/>
         <DCCReference Include="..\code\ObjectList_test.pas"/>
         <DCCReference Include="..\code\Nullable_test.pas">
