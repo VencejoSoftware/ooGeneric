@@ -21,7 +21,9 @@ uses
   FilterableList_test in '..\code\FilterableList_test.pas',
   List_test in '..\code\List_test.pas',
   ObjectList_test in '..\code\ObjectList_test.pas',
-  Nullable_test in '..\code\Nullable_test.pas' {R *.RES};
+  Nullable_test in '..\code\Nullable_test.pas' {R *.RES},
+  Attribute in '..\..\code\Attribute.pas',
+  Attribute_test in '..\code\Attribute_test.pas';
 
 {R *.RES}
 
