@@ -1,17 +1,54 @@
+{$REGION 'documentation'}
+{
+  Copyright (c) 2019, Vencejo Software
+  Distributed under the terms of the Modified BSD License
+  The full license is distributed with this software
+}
+{
+  Simple attribute object
+  @created(21/11/2019)
+  @author Vencejo Software <www.vencejosoft.com>
+}
+{$ENDREGION}
 unit Attribute;
 
 interface
 
 uses
   SysUtils, StrUtils,
-  Generics.Collections;
+  IterableList;
 
 type
+{$REGION 'documentation'}
+{
+  @abstract(Interface of attribute object)
+  @member(Key Attribute identifier)
+  @member(Value Attribute content value)
+}
+{$ENDREGION}
   IAttribute = interface
     ['{07D701CF-944B-45F8-A755-12D5C3735C29}']
     function Key: String;
     function Value: String;
   end;
+
+{$REGION 'documentation'}
+{
+  @abstract(Implementation of @link(IAttribute))
+  @member(Key @seealso(IAttribute.Key))
+  @member(Value @seealso(IAttribute.Value))
+  @member(
+    Create Object constructor
+    @param(Key Attribute identifier)
+    @param(Value Attribute content value)
+  )
+  @member(
+    New Create a new @classname as interface
+    @param(Key Attribute identifier)
+    @param(Value Attribute content value)
+  )
+}
+{$ENDREGION}
 
   TAttribute = class sealed(TInterfacedObject, IAttribute)
   strict private
@@ -24,14 +61,46 @@ type
     class function NewByText(const Text: String; const Separator: Char): IAttribute;
   end;
 
-  TAttributeList = class sealed(TList<IAttribute>)
+{$REGION 'documentation'}
+{
+  @abstract(Interface of attribute list object)
+  @member(ItemByKey Find item by his key
+  @param(Key Key identifier)
+  @return(@link(IAttribute Attribute object) if its exists, nil if not)
+}
+{$ENDREGION}
+
+  IAttributeList = interface(IIterableList<IAttribute>)
+    ['{EBF63EAA-266F-47D0-8355-4D47DB974A0A}']
+    function ItemByKey(const Key: String): IAttribute;
+  end;
+
+{$REGION 'documentation'}
+{
+  @abstract(Implementation of @link(IAttributeList))
+  @member(ItemByKey @seealso(IAttributeList.ItemByKey))
+  @member(
+    Create Object constructor
+  )
+  @member(
+    New Create a new @classname as interface
+  )
+  @member(
+    NewByContent Create a new @classname as interface parsing a content string
+    @param(Content Content string)
+    @param(ItemSeparator Item character separator)
+    @param(ValueSeparator Item value/assign character separator)
+  )
+}
+{$ENDREGION}
+
+  TAttributeList = class sealed(TIterableList<IAttribute>, IAttributeList)
   private
     procedure ParseContent(const Content: String; const ItemSeparator, ValueSeparator: Char);
   public
     function ItemByKey(const Key: String): IAttribute;
-    function IsEmpty: Boolean;
     class function New: TAttributeList;
-    class function NewByContent(const Content: String; const ItemSeparator, ValueSeparator: Char): TAttributeList;
+    class function NewByContent(const Content: String; const ItemSeparator, ValueSeparator: Char): IAttributeList;
   end;
 
 implementation
@@ -72,11 +141,6 @@ end;
 
 { TAttributeList }
 
-function TAttributeList.IsEmpty: Boolean;
-begin
-  Result := Count < 1;
-end;
-
 function TAttributeList.ItemByKey(const Key: String): IAttribute;
 var
   Item: IAttribute;
@@ -114,10 +178,10 @@ begin
 end;
 
 class function TAttributeList.NewByContent(const Content: String; const ItemSeparator, ValueSeparator: Char)
-  : TAttributeList;
+  : IAttributeList;
 begin
-  Result := TAttributeList.Create;
-  Result.ParseContent(Content, ItemSeparator, ValueSeparator);
+  Result := TAttributeList.New;
+  (Result as TAttributeList).ParseContent(Content, ItemSeparator, ValueSeparator);
 end;
 
 end.
