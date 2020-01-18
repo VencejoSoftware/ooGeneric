@@ -1,5 +1,5 @@
 {
-  Copyright (c) 2019, Vencejo Software
+  Copyright (c) 2020, Vencejo Software
   Distributed under the terms of the Modified BSD License
   The full license is distributed with this software
 }
@@ -21,7 +21,11 @@ uses
   FilterableList_test in '..\code\FilterableList_test.pas',
   List_test in '..\code\List_test.pas',
   ObjectList_test in '..\code\ObjectList_test.pas',
-  Nullable_test in '..\code\Nullable_test.pas';
+  Nullable_test in '..\code\Nullable_test.pas',
+  Attribute in '..\..\code\Attribute.pas',
+  Attribute_test in '..\code\Attribute_test.pas',
+  PlainStream in '..\..\code\PlainStream.pas',
+  PlainStream_test in '..\code\PlainStream_test.pas';
 
 {R *.RES}
 

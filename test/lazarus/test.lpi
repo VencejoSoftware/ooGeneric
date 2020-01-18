@@ -117,7 +117,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="18">
+    <Units Count="20">
       <Unit0>
         <Filename Value="test.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -190,6 +190,14 @@
         <Filename Value="..\code\Attribute_test.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="..\..\code\PlainStream.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\code\PlainStream_test.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit19>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
