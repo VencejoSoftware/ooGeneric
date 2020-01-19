@@ -31,7 +31,7 @@ type
 {$ENDREGION}
   IPlainStream = interface
     ['{F7C6FBFD-796A-4BEC-8031-DD9536B78274}']
-    function Decode(const Stream: TStream): String;
+    function Decode(const Stream: TStream): WideString;
   end;
 
 {$REGION 'documentation'}
@@ -39,14 +39,14 @@ type
   @abstract(Implementation of @link(IPlainStream))
   @member(IsUnicode Checks if Stream has unicode content)
   @member(
-    AnsiStreamToText Convert stream ansi content to string
+    AnsiStreamToText Convert stream ansi content to WideString
     @param(Stream Steam object)
-    @returns(String with content)
+    @returns(WideString with content)
   )
   @member(
-    UnicodeStreamToText Convert stream unicode content to string
+    UnicodeStreamToText Convert stream unicode content to WideString
     @param(Stream Steam object)
-    @returns(String with content)
+    @returns(WideString with content)
   )
   @member(Decode @seealso(IPlainStream.Decode))
   @member(New Create a new @classname as interface)
@@ -62,16 +62,16 @@ type
     BUFFER_SIZE = 1024;
   private
     function IsUnicode(const Stream: TStream): Boolean;
-    function AnsiStreamToText(const Stream: TStream): string;
-    function UnicodeStreamToText(const Stream: TStream): string;
+    function AnsiStreamToText(const Stream: TStream): WideString;
+    function UnicodeStreamToText(const Stream: TStream): WideString;
   public
-    function Decode(const Stream: TStream): String;
+    function Decode(const Stream: TStream): WideString;
     class function New: IPlainStream;
   end;
 
 implementation
 
-function TPlainStream.UnicodeStreamToText(const Stream: TStream): string;
+function TPlainStream.UnicodeStreamToText(const Stream: TStream): WideString;
 var
   BufferChar: array [0 .. BUFFER_SIZE - 1] of TSOChar;
   ReadCount: Integer;
@@ -85,7 +85,7 @@ begin
   end;
 end;
 
-function TPlainStream.AnsiStreamToText(const Stream: TStream): string;
+function TPlainStream.AnsiStreamToText(const Stream: TStream): WideString;
 var
   BufferAnsi: array [0 .. BUFFER_SIZE - 1] of AnsiChar;
   BufferChar: array [0 .. BUFFER_SIZE - 1] of TSOChar;
@@ -111,8 +111,10 @@ begin
   Result := (Stream.Read(BOM, SizeOf(BOM)) = 2) and (BOM[0] = $FF) and (BOM[1] = $FE);
 end;
 
-function TPlainStream.Decode(const Stream: TStream): String;
+function TPlainStream.Decode(const Stream: TStream): WideString;
 begin
+  if Stream is TStringStream then
+    Exit((Stream as TStringStream).DataString);
   if IsUnicode(Stream) then
     Result := UnicodeStreamToText(Stream)
   else
