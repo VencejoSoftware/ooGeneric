@@ -16,7 +16,7 @@ interface
 
 uses
   SysUtils,
-  Generics.Collections;
+  Generics.Collections, Generics.Defaults;
 
 type
 {$REGION 'documentation'}
@@ -91,6 +91,10 @@ type
     @param(Item Value item)
   )
   @member(Clear Clear the list removing all items)
+  @member(
+    Sort Sort items in list based in @link(IComparer comparer object))
+    @param(Comparer @link(IComparer comparer object))
+  )
   @member(Items Property to access of all items)
 }
 {$ENDREGION}
@@ -111,6 +115,7 @@ type
     procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear;
     property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
+    procedure Sort(const Comparer: IComparer<T>);
   end;
 {$REGION 'documentation'}
 {
@@ -129,6 +134,7 @@ type
   @member(ChangeItemByIndex @seealso(IList.ChangeItemByIndex))
   @member(Clear @seealso(IList.Clear))
   @member(Items @seealso(IList.Items))
+  @member(Sort @seealso(IList.Sort))
   @member(
     IsValidIndex Checks if a index is valid for current items in list
     @param(Index Item index in list)
@@ -170,6 +176,7 @@ type
     procedure Clear; virtual;
     procedure FromArray(const ArrayItems: array of T);
     procedure FromTList(const List: TNativeGenericList<T>);
+    procedure Sort(const Comparer: IComparer<T>);
     constructor Create; virtual;
     destructor Destroy; override;
     property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
@@ -264,6 +271,14 @@ end;
 procedure TListGeneric<T>.Clear;
 begin
   _List.Clear;
+end;
+
+procedure TListGeneric<T>.Sort(const Comparer: IComparer<T>);
+begin
+  if not Assigned(Comparer) then
+    _List.Sort(TComparer<T>.Default)
+  else
+    _List.Sort(Comparer);
 end;
 
 constructor TListGeneric<T>.Create;
