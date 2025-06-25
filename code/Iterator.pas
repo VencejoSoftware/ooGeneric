@@ -24,7 +24,7 @@ type
   )
   @member(
     MoveNext Increase position index
-    @return(@true if is not the last item, @false if es EOL)
+    @return(@true if is not the last item, @false if is EOL)
   )
   @member(Reset Reset the index position)
   @member(Current Property to return current item)

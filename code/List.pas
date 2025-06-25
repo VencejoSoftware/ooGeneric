@@ -111,7 +111,7 @@ type
     function First: T;
     function Last: T;
     procedure FromArray(const ArrayItems: array of T);
-    procedure FromTList(const List: TNativeGenericList<T>);
+    procedure FromTList(const List: IList<T>);
     procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear;
     property Items[const Index: TIntegerIndex]: T read ItemByIndex write ChangeItemByIndex; default;
@@ -175,7 +175,7 @@ type
     procedure ChangeItemByIndex(const Index: TIntegerIndex; const Item: T);
     procedure Clear; virtual;
     procedure FromArray(const ArrayItems: array of T);
-    procedure FromTList(const List: TNativeGenericList<T>);
+    procedure FromTList(const List: IList<T>);
     procedure Sort(const Comparer: IComparer<T>);
     constructor Create; virtual;
     destructor Destroy; override;
@@ -260,12 +260,12 @@ begin
     Add(ArrayItems[i]);
 end;
 
-procedure TListGeneric<T>.FromTList(const List: TNativeGenericList<T>);
+procedure TListGeneric<T>.FromTList(const List: IList<T>);
 var
-  Item: T;
+  i: TIntegerIndex;
 begin
-  for Item in List do
-    Self.Add(Item);
+  for i := 0 to Pred(List.Count) do
+    Add(List.Items[i]);
 end;
 
 procedure TListGeneric<T>.Clear;
